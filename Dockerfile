@@ -7,7 +7,8 @@ MAINTAINER viki53 <corentin@helyo.world>
 RUN apt-get clean
 RUN apt-get update
 RUN apt-get install -y sudo gnupg
-# RUN apt-get install -y php7.0-mbstring php7.0-xml php7.0-zip
+RUN apt-get install -y php7.0-mysql
+RUN phpenmod pdo_mysql
 
 # Install Composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
