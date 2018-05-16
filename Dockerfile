@@ -2,13 +2,16 @@ FROM php:7.2-apache
 
 MAINTAINER viki53 <corentin@helyo.world>
 
-# Install PHP extensions
-
 RUN apt-get clean
 RUN apt-get update
 RUN apt-get install -y sudo gnupg
-RUN apt-get install -y php7.0-mysql
-RUN phpenmod pdo_mysql
+
+# Install PHP extensions
+RUN apt-get install -y libmcrypt-dev libfreetype6-dev libicu-dev libjpeg62-turbo-dev libpng-dev libxml2-dev zlib1g-dev
+RUN pecl install mcrypt-1.0.1
+RUN docker-php-ext-enable mcrypt
+RUN docker-php-ext-install mysqli pdo pdo_mysql shmop zip xmlwriter
+RUN a2enmod rewrite
 
 # Install Composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -20,3 +23,5 @@ RUN php -r "unlink('composer-setup.php');"
 
 RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 RUN apt-get install -y nodejs build-essential
+
+RUN apt-get autoremove
